@@ -1,0 +1,39 @@
+#ifndef GET_COMMAND_H
+#define GET_COMMAND_H
+#include <string.h>
+#include <ctype.h>
+#include "basic_infomation.h"
+#include "communicate.h"
+#include <stdlib.h>
+
+#define MAX_PARAMETER   10
+#define MAX_SIZE     50
+#define PORT_MIN    1024
+#define PORT_MAX    49152
+
+typedef enum{
+    FAIL = -1,
+    SUCCESS = 0,
+} status;
+
+typedef enum{
+    CMD_START = 0,
+    CMD_HELP ,
+    CMD_EXIT,
+    CMD_DISPLAY_IP,
+    CMD_PORT,
+    CMD_CONNECT,
+    CMD_LIST,
+    CMD_SEND,
+    CMD_TERMINAL,
+    CMD_UNKNOWN,
+
+} command_t; 
+
+int get_parameter_initial(int argc, char *argv[], char *buffer, int buffer_size) ;
+void Check_Command(uint16_t Port , char *buffer, command_t *choice );
+int is_number(const char *str);
+int Check_Port_Permission(uint16_t Port);
+char *getcommand();
+
+#endif
