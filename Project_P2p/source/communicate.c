@@ -202,18 +202,18 @@ static void pool_client()
 int server_creat(uint16_t PORT_CONNECT)
 {
 
-    socklen_t connect_size = sizeof(struct sockaddr_in); 
-    information_connect_socket *connect_other;
+    // socklen_t connect_size = sizeof(struct sockaddr_in); 
+    // information_connect_socket *connect_other;
     
-    char buffer[BUFFER_SIZE];
-    connect_other = (information_connect_socket *)malloc(sizeof(information_connect_socket));
+    // char buffer[BUFFER_SIZE];
+    // connect_other = (information_connect_socket *)malloc(sizeof(information_connect_socket));
 
-    connect_other->status = -1;
+    // connect_other->status = -1;
 
-    if (!connect_other) {
-        perror("malloc failed");
-         return FAIL;;
-    }
+    // if (!connect_other) {
+    //     perror("malloc failed");
+    //      return FAIL;;
+    // }
     /*Serve */
     //Creat socket
     self.status_serve = socket(AF_INET,SOCK_STREAM,0);
