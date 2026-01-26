@@ -44,7 +44,7 @@ char *get_local_ip(void)
 
 void fuction_display_help()
 {
-    printf("=========Help display============== \n");
+    printf("=============*********Chat Application*************============== \n");
     printf("Use the command below\n");
     printf("1.help                               :  display user interface option\n");
     printf("2.myip                               : display IP address\n");
@@ -54,7 +54,9 @@ void fuction_display_help()
     printf("6.terminate <connection ip>          : terminal connection\n");
     printf("7.send <connect id> <message>        : send the message to a connection\n");
     printf("8.exit                               :  close all connection all terminate app\n");
-    printf("======================================= \n");
+    printf("==================================================================\n");
+
+    printf("Application is listen on %d\n",htons(self.address.sin_port));
 }
 void fuction_display_ip()
 {

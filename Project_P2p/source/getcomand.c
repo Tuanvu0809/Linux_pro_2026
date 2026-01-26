@@ -91,9 +91,9 @@ static command_t Get_Command_ID(const char *cmd)
     if(strcmp(cmd,"list") == 0)
         return CMD_LIST;
     if(strcmp(cmd,"send") == 0)
-        return CMD_SEND;
+        return CMD_SEND_MESSAGE;
     if(strcmp(cmd,"myport") == 0)
-        return CMD_PORT;
+        return CMD_DISPLAY_PORT;
     if(strcmp(cmd,"terminate") == 0)
         return CMD_TERMINAL;
    
@@ -262,15 +262,14 @@ void Check_Command(uint16_t Port , char *buffer, command_t *choice )
             break;
         case CMD_CONNECT:
             fuction_connect(cmd[1],cmd[2]); 
-            //fuction_send(cmd[1],"connect success"); 
             break;
         case CMD_LIST:
             function_list();
             break;
-        case CMD_PORT:
+        case CMD_DISPLAY_PORT:
             fuction_display_port();
             break;
-        case CMD_SEND:
+        case CMD_SEND_MESSAGE:
             fuction_send(cmd[1],buffer);
             break;
         case CMD_TERMINAL:
@@ -280,7 +279,6 @@ void Check_Command(uint16_t Port , char *buffer, command_t *choice )
             printf("Unknown command: %s\n", buffer);
             break;
     }
-
    free(buffer);
 
 }

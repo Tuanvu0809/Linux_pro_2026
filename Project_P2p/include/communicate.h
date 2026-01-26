@@ -41,11 +41,11 @@ typedef struct{
 int Send_message_to_connect(int index, const char *message, const char *fuction);
 int malloc_connect_socket();
 int is_port_free(uint16_t Port);
-int Serve_creat(uint16_t PORT_CONNECT);
+int server_creat(uint16_t PORT_CONNECT);
 int Client_creat(uint16_t PORT_CONNECT , char *ip);
 
-void Tcp_stream_server();
-void Tcp_stream_client();
+void tcp_stream_server();
+void tcp_stream_client();
 void Tcp_stream_disconnect();
 void List_all_connect();
 void Tcp_terminal(int index);

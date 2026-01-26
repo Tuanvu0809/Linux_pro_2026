@@ -199,7 +199,7 @@ static void pool_client()
     }
 }
 
-int Serve_creat(uint16_t PORT_CONNECT)
+int server_creat(uint16_t PORT_CONNECT)
 {
 
     socklen_t connect_size = sizeof(struct sockaddr_in); 
@@ -220,6 +220,7 @@ int Serve_creat(uint16_t PORT_CONNECT)
     if( self.status_serve < 0)
     {
         perror("fail creat serve socket \n");
+        choice_user = CMD_EXIT;
         return 1;
     }
     
@@ -232,7 +233,7 @@ int Serve_creat(uint16_t PORT_CONNECT)
     {
         perror("fail bind serve address\n");
         close(self.status_serve);
-        
+        choice_user = CMD_EXIT;
         return 1;
     }
 
@@ -380,13 +381,13 @@ void Tcp_stream_disconnect()
     
 }
 
-void Tcp_stream_server()
+void tcp_stream_server()
 {
     pool_serve(self.status_serve);
 
 }
 
-void Tcp_stream_client()
+void tcp_stream_client()
 {
     pool_client();
 
