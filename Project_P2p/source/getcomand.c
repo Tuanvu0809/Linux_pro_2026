@@ -224,6 +224,7 @@ void fuction_terminal(char *index_string)
 
 void function_list()
 {
+    printf("number connect: %d\n",number_of_connection);
     if(number_of_connection == 0)
     {
         fprintf(stdout,"\nNo connection\n");

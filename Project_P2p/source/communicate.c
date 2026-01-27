@@ -39,11 +39,16 @@ int is_port_free(uint16_t Port)
     return PORT_FREE;
 }
 
+static void handle_pool_event(int index)
+{
+
+}
+
 static void pool_serve(int server_fd)
 {
-    struct pollfd fds[MAX_CLIENT + 1];
+   
     char buffer[BUFFER_SIZE];
-
+    struct pollfd fds[MAX_CLIENT + 1];
     int nfds = 0;
 
     fds[nfds].fd = server_fd;
@@ -54,7 +59,7 @@ static void pool_serve(int server_fd)
         struct sockaddr_in addr;
         socklen_t len = sizeof(addr);
 
-        int client_fd = accept(server_fd, (struct sockaddr *)&addr, &len);
+        int client_fd = accept(self.status_serve, (struct sockaddr *)&addr, &len);
         
         if (client_fd >= 0 && number_of_connection < MAX_CLIENT)
         {
@@ -63,10 +68,12 @@ static void pool_serve(int server_fd)
             fprintf(stdout,"\n Accept a connection from address %s set up at %d\n",inet_ntoa(connect_socket[number_of_connection].address.sin_addr),htons(connect_socket[number_of_connection].address.sin_port));
             (number_of_connection)++;
 
-        }    
+        } 
+
     }
 
-    for (int i = 0; i < number_of_connection; i++) {
+    for (int i = 0; i < number_of_connection; i++)
+    {
         fds[nfds].fd = connect_socket[i].status;
         fds[nfds].events = POLLIN;
         nfds++;
@@ -82,7 +89,7 @@ static void pool_serve(int server_fd)
         perror("poll");
         return;
     }
-   
+
     for (int i = 1; i < nfds; i++) {
 
         if (fds[i].revents & POLLIN) {
@@ -108,8 +115,8 @@ static void pool_serve(int server_fd)
                 {
 
                     printf("\n******************************\n");
-                    printf("Message receive from %s\n" , inet_ntoa(connect_socket[i].address.sin_addr) );
-                    printf("From Port %d\n",htons(connect_socket[i].address.sin_port));
+                    printf("Message receive from %s\n" , inet_ntoa(connect_socket[idx].address.sin_addr) );
+                    printf("From Port %d\n",htons(connect_socket[idx].address.sin_port));
                     printf("Message: %s\n", buffer);
                     printf("******************************\n");
                 }
@@ -202,19 +209,6 @@ static void pool_client()
 int server_creat(uint16_t PORT_CONNECT)
 {
 
-    // socklen_t connect_size = sizeof(struct sockaddr_in); 
-    // information_connect_socket *connect_other;
-    
-    // char buffer[BUFFER_SIZE];
-    // connect_other = (information_connect_socket *)malloc(sizeof(information_connect_socket));
-
-    // connect_other->status = -1;
-
-    // if (!connect_other) {
-    //     perror("malloc failed");
-    //      return FAIL;;
-    // }
-    /*Serve */
     //Creat socket
     self.status_serve = socket(AF_INET,SOCK_STREAM,0);
     if( self.status_serve < 0)
@@ -244,7 +238,7 @@ int server_creat(uint16_t PORT_CONNECT)
         close(self.status_serve);
         return 1;
     }
-  
+    
     return SUCCESS;
 }
 
@@ -290,10 +284,12 @@ int Client_creat(uint16_t PORT_CONNECT , char *ip)
     }
 
     connect_other->status = self.status_client;
-    connect_socket[number_of_connection] = *connect_other;
+    connect_socket[number_of_connection] = *connect_other;  
     
     number_of_connection ++;
     free(connect_other);
+
+    sleep(1);
 
     return SUCCESS;
 }
@@ -383,13 +379,13 @@ void Tcp_stream_disconnect()
 
 void tcp_stream_server()
 {
-    pool_serve(self.status_serve);
+   pool_serve(self.status_serve);
 
 }
 
 void tcp_stream_client()
 {
-    pool_client();
+   pool_client();
 
 }
 
@@ -398,7 +394,7 @@ void List_all_connect()
 {
     
     printf("\n*************List******************************************************************\n");
-    printf("index\2t | IP Address\2t| Port\n ");
+    printf("index\2 | IP Address\2| Port\n ");
     for(int i =0 ; i< number_of_connection ; i++)
     {
        printf("%d  |  %s |  %d  \n",i,inet_ntoa(connect_socket[i].address.sin_addr),htons(connect_socket[i].address.sin_port) );
