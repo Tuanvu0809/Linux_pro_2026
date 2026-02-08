@@ -97,7 +97,6 @@ static void pool_serve(int server_fd)
             int idx = i - 1; 
             int fd = connect_socket[idx].status;
             int n = read(fd, buffer, BUFFER_SIZE - 1);
-
             if (n > 0) {
                 buffer[n] = '\0';
 
@@ -200,8 +199,8 @@ static void pool_client()
                 close(fd);
                 Tcp_terminal(i);
                 continue;
-            }        
-          
+            } 
+    
         }
     }
 }
