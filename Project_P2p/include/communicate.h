@@ -5,7 +5,7 @@
 #include <arpa/inet.h>
 #include <stdlib.h>
 #include "basic_infomation.h"
-#include "getcomand.h"
+#include "comand.h"
 #include <unistd.h>
 #include <errno.h>
 #include <arpa/inet.h>

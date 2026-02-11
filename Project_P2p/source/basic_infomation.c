@@ -7,6 +7,8 @@
 
 char ip_address[IP_BUFFER_SIZE];
 extern information_self_socket self;
+extern int number_of_connection;
+extern information_connect_socket *connect_socket;
 
 char *get_local_ip(void)
 {
@@ -40,7 +42,28 @@ char *get_local_ip(void)
 
     freeifaddrs(ifaddr);
     return ip_address;
-} 
+}
+
+int Check_socket_connect(char *ip , uint16_t Port)
+{
+    if (ip != NULL && strcmp(ip, get_local_ip()) == 0 && Port== ntohs(self.address.sin_port))
+    {
+        fprintf(stderr,"self connect\n");
+         return FAIL; ;
+    }
+
+    for( int index = 0; index< number_of_connection ;index++ )
+    {
+        if ( strcmp(ip, get_local_ip()) == 0 && Port== ntohs(connect_socket[index].address.sin_port))
+        {
+            fprintf(stderr,"already connect\n");
+            return FAIL; 
+        }   
+    }
+
+    return SUCCESS;
+}
+
 
 void fuction_display_help()
 {
@@ -84,5 +107,12 @@ void fuction_display_port()
     else
         printf("Cannot get PORT \n");
     printf("======================================= \n");
+}
+
+void self_information_socket(uint16_t Port)
+{
+    self.address.sin_addr.s_addr = inet_addr(get_local_ip());
+    self.address.sin_port = htons(Port);
+    self.status_serve = -1 ; 
 }
 

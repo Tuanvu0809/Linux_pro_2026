@@ -39,11 +39,6 @@ int is_port_free(uint16_t Port)
     return PORT_FREE;
 }
 
-static void handle_pool_event(int index)
-{
-
-}
-
 static void pool_serve(int server_fd)
 {
    
@@ -54,6 +49,12 @@ static void pool_serve(int server_fd)
     fds[nfds].fd = server_fd;
     fds[nfds].events = POLLIN;
     nfds++;
+
+    int ready = poll(fds, nfds, -1);
+    if (ready < 0) {
+        perror("poll");
+        return;
+    }
 
     if (fds[0].revents & POLLIN) {
         struct sockaddr_in addr;
@@ -84,11 +85,7 @@ static void pool_serve(int server_fd)
         return;
     }
 
-    int ready = poll(fds, nfds, -1);
-    if (ready < 0) {
-        perror("poll");
-        return;
-    }
+ 
 
     for (int i = 1; i < nfds; i++) {
 
@@ -207,7 +204,6 @@ static void pool_client()
 
 int server_creat(uint16_t PORT_CONNECT)
 {
-
     //Creat socket
     self.status_serve = socket(AF_INET,SOCK_STREAM,0);
     if( self.status_serve < 0)
@@ -251,7 +247,8 @@ int Client_creat(uint16_t PORT_CONNECT , char *ip)
         perror("malloc failed");
          return FAIL;;
     }
-      socklen_t len = sizeof(connect_other->address);
+    
+    socklen_t len = sizeof(connect_other->address);
 
     // 1. socket() - Create socket
     self.status_client = socket(AF_INET, SOCK_STREAM, 0);

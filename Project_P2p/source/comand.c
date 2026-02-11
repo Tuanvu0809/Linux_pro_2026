@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../include/getcomand.h"
+#include "../include/comand.h"
 #include <sys/wait.h>
 #include <signal.h>
 #include "../include/basic_infomation.h"
@@ -8,26 +8,6 @@
 extern information_self_socket self;
 extern information_connect_socket *connect_socket;
 extern int number_of_connection ;
-
-int Check_socket_connect(char *ip , uint16_t Port)
-{
-    if (ip != NULL && strcmp(ip, get_local_ip()) == 0 && Port== ntohs(self.address.sin_port))
-    {
-        fprintf(stderr,"self connect\n");
-         return FAIL; ;
-    }
-
-    for( int index = 0; index< number_of_connection ;index++ )
-    {
-        if ( strcmp(ip, get_local_ip()) == 0 && Port== ntohs(connect_socket[index].address.sin_port))
-        {
-            fprintf(stderr,"already connect\n");
-            return FAIL; 
-        }   
-    }
-
-    return SUCCESS;
-}
 
 int get_parameter_initial(int argc, char *argv[], char *buffer, int buffer_size) {
     
@@ -58,7 +38,7 @@ int get_parameter_initial(int argc, char *argv[], char *buffer, int buffer_size)
 
     return SUCCESS;
 }
-/*helll*/
+/*check number*/
 int is_number(const char *str)
 {
     if (*str == '\0') return FAIL; 
@@ -74,7 +54,7 @@ int is_number(const char *str)
 int Check_Port_Permission(uint16_t Port)
 {
     fprintf(stderr,"Port can accept from %d to %d\n",PORT_MIN,PORT_MAX);
-   return (Port > PORT_MIN && Port < PORT_MAX) ? 0 : 1;
+    return (Port > PORT_MIN && Port < PORT_MAX) ? SUCCESS : FAIL;
 }
 
 static command_t Get_Command_ID(const char *cmd)
@@ -174,13 +154,13 @@ static void fuction_connect(char *ip , char *Port_string)
     }
     uint16_t Port_connect = atoi(Port_string);
  
-    if (Check_socket_connect(ip,Port_connect) != 0  )
+    if (Check_socket_connect(ip,Port_connect) != SUCCESS )
     {
         fprintf(stderr,"Can't connect socket\n");
         return;
     }
 
-    if(Client_creat(Port_connect,ip) == 1)
+    if(Client_creat(Port_connect,ip) != SUCCESS)
     {
         fprintf(stderr,"connet fail!!\n");
         return ;
@@ -194,8 +174,6 @@ static void fuction_connect(char *ip , char *Port_string)
 
 void fuction_exit()
 {
-    
-
     for(int i = 0 ; i <number_of_connection; i++)
     {
         Send_message_to_connect(i,NULL,"exit");

@@ -10,7 +10,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <poll.h>
-#include "../include/getcomand.h"
+#include "../include/comand.h"
 #include "../include/basic_infomation.h"
 /*Variable global*/
 command_t  choice_user = CMD_HELP; 
@@ -50,9 +50,7 @@ int main(int argc, char *argv[])
         return FAIL;
     }
     /*initial infomation*/
-    self.address.sin_addr.s_addr = inet_addr(get_local_ip());
-    self.address.sin_port = htons(Port);
-    self.status_serve = -1 ; 
+    self_information_socket(Port);
 
     fflush(stdin);
     /*Display all choice*/
