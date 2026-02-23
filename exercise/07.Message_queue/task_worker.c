@@ -40,8 +40,6 @@ int main()
     }
 
     mq_getattr(myqueue,&attr);
-
-    printf("current message size : %ld\n",attr.mq_curmsgs);
     char buffer[attr.mq_msgsize + 1];
 
     while( mq_receive(myqueue,buffer,sizeof(buffer),&priority) != -1)

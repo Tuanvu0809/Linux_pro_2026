@@ -31,6 +31,9 @@ int main(int argc, char *argv[])
         exit(1);
     }
      /*open queue*/
+    //    If O_CREAT is specified in oflag, then two additional arguments
+    //    must be supplied.  The mode argument specifies the permissions to
+    //    be placed on the new queue,
     myqueue = mq_open(QUEUE_NAME, O_CREAT | O_WRONLY ,0666, NULL);
     
     if(myqueue == (mqd_t)-1)
