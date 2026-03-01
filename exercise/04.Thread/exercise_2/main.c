@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-long long couter = 0;
+long long counter = 0;
 
 pthread_mutex_t lock;
 void *Increase_value(  )
@@ -12,8 +12,8 @@ void *Increase_value(  )
     for(unsigned long int i =0 ;i < 1000000;i++)
     {
         pthread_mutex_lock(&lock);
-        couter ++ ;
-     pthread_mutex_lock(&lock);
+        counter ++ ;
+        pthread_mutex_unlock(&lock);
     }
     return NULL;
 }
@@ -35,7 +35,7 @@ int main(){
     
     pthread_mutex_destroy(&lock);
 
-    printf("\ncouter value = %lld\n",couter);
+    printf("\ncouter value = %lld\n",counter);
 
     return 0;
 }

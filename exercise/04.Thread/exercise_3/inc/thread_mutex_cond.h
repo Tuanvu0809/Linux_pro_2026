@@ -7,7 +7,7 @@ typedef struct data_type{
     bool data_ready;
 }data_type;
 
-void Randdom_number(int *array,int quanlity);
+void Random_number(int *array,int quantity);
 void *Consumer( void *arg);
 void *Producer( void *arg);
 

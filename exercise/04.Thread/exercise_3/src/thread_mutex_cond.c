@@ -12,15 +12,15 @@ extern data_type check;
 extern pthread_mutex_t lock;
 extern pthread_cond_t cond;
 
-void Randdom_number(int *array,int quanlity)
+void Random_number(int *array,int quantity)
 {       
 
-        for(int i = 0; i < quanlity; ++i)
+        for(int i = 0; i < quantity; ++i)
         {
             array[i] = rand()%100;
 
         }   
-}     
+}       
 
 void *Consumer( void *arg)
 {
@@ -49,7 +49,7 @@ void *Producer( void *arg)
     printf("\n ====Producer thread==\n");
     pthread_mutex_lock(&lock);
 
-    Randdom_number(check.data,need);
+    Random_number(check.data,need);
     check.data_ready = true;
     check.size = need;
 

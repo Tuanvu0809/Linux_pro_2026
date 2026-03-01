@@ -22,9 +22,9 @@ int main(){
     pthread_cond_init(&cond,NULL);
 
     pthread_t producer, consumer; 
-    int quanlity = 10;
+    int quantity = 10;
   
-    pthread_create(&producer,NULL,Producer,&quanlity);
+    pthread_create(&producer,NULL,Producer,&quantity);
     sleep(1);
     pthread_create(&consumer,NULL,Consumer,NULL);
 
